@@ -6,7 +6,7 @@ from aluno.models import Aluno
 class AlunoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aluno
-        fields =('nome', 'idade', 'email')
+        fields =('id', 'nome', 'idade', 'email')
 
 
 
