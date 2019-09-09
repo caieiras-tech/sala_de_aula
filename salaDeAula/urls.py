@@ -7,9 +7,11 @@ from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
 from aluno.views import AlunoViewSet
+from professores.views import ProfessorViewSet
 
 router = routers.DefaultRouter()
 router.register(r'alunos', AlunoViewSet)
+router.register(r'professores', ProfessorViewSet)
 
 
 urlpatterns = [
