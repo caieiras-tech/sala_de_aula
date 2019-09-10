@@ -4,8 +4,11 @@ from aluno.serializers import AlunoSerializer
 from professores.models import Professor
 
 
-class ProfessorSerializer(serializers.ModelSerializer):
-    alunos = AlunoSerializer(many=True, read_only=True)
-    class Meta:
-        model = Professor
-        fields = ('id', 'nome', 'idade', 'alunos')
+class ProfessorSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    nome = serializers.CharField(max_length=255)
+    idade = serializers.IntegerField()
+    alunos_professor = AlunoSerializer(many=True, required=False)
+
+    def create(self, validated_data):
+        return Professor.objects.create(**validated_data)

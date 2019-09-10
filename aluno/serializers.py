@@ -4,28 +4,33 @@ from aluno.models import Aluno
 from professores.models import Professor
 
 
+class ProfessorDataSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    nome = serializers.CharField(read_only=True)
+
+
 class AlunoSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     nome = serializers.CharField(max_length=255)
     idade = serializers.IntegerField()
     email = serializers.EmailField()
-    prof_favorito = serializers.SlugRelatedField(
-        slug_field='id',
-        queryset=Professor.objects.all()
-    )
+    prof_favorito = ProfessorDataSerializer()
 
     def create(self, validated_data):
-        aluno = Aluno.objects.create(**validated_data)
+        professor_data = validated_data.pop('prof_favorito')
+        professor = Professor.objects.get(id=professor_data['id'])
+        aluno = Aluno.objects.create(prof_favorito=professor, **validated_data  )
         return aluno
 
     def update(self, instance, validated_data):
         instance.nome = validated_data.get('nome')
         instance.idade = validated_data.get('idade')
         instance.email = validated_data.get('email')
-        instance.prof_favorito = validated_data.get('prof_favorito')
+        professor_data= validated_data.pop('prof_favorito')
+        professor = Professor.objects.get(id=professor_data['id'])
+        instance.prof_favorito = professor
         instance.save()
         return instance
-
 
 
 

@@ -15,7 +15,7 @@ class Aluno(models.Model):
     prof_favorito = models.ForeignKey(
         Professor,
         on_delete=models.CASCADE,
-        related_name='alunos'
+        related_name='alunos_professor'
     )
 
 
