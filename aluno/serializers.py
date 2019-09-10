@@ -19,7 +19,7 @@ class AlunoSerializer(serializers.Serializer):
     def create(self, validated_data):
         professor_data = validated_data.pop('prof_favorito')
         professor = Professor.objects.get(id=professor_data['id'])
-        aluno = Aluno.objects.create(prof_favorito=professor, **validated_data  )
+        aluno = Aluno.objects.create(prof_favorito=professor, **validated_data)
         return aluno
 
     def update(self, instance, validated_data):
@@ -33,4 +33,6 @@ class AlunoSerializer(serializers.Serializer):
         return instance
 
 
-
+class AlunoLightSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    nome = serializers.CharField()
